@@ -9,19 +9,20 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
-
-@WebFilter("/main.do") // 어떤 URL 을 필터로 넣을지 ..
-public class C01Filter_One implements Filter{
+@WebFilter("/*")  //url : /* 모든 url,  *.do : 확장자가 do 인 모든 요청
+public class UTF8_EncodingFilter implements Filter{
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
 		
-		//Request전 처리코드
-		System.out.println("[FILTER] FILTER_ONE START");
-		chain.doFilter(req, resp); // 관련된 체인들을 넘어가다가 더 이상 넘어갈 체인 이 없으면 req로 넘어감
-		//Response 후 처리코드
-		System.out.println("[FILTER] FILTER_ONE END...");
+		
+		System.out.println("[Filter] UTF8_EncodingFilter..Start");
+		req.setCharacterEncoding("UTF-8");
+		chain.doFilter(req, resp);
+		resp.setContentType("text/html; charset=UTF-8");
+		System.out.println("[Filter] UTF8_EncodingFilter..End");
+		
 	}
 	
 }

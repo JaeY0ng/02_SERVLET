@@ -8,5 +8,8 @@
 </head>
 <body>
 		<main>MAIN PAGE(/WEB-INF/view/main.jsp)</main>
+		
+		USER : ${userid }<br>
+		ROLE : ${role }<br>
 </body>
 </html>
