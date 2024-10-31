@@ -5,7 +5,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 
-@WebListener
+//@WebListener
 public class C01ServletContextListenerTest implements ServletContextListener{
 
 
@@ -14,6 +14,7 @@ public class C01ServletContextListenerTest implements ServletContextListener{
 		System.out.println("[Listener] C01ServletContextListenerTest start...");
 		
 		sce.getServletContext().setAttribute("CTX_KEY", "CTX_VALUE");
+		
 	}
 	
 	@Override
