@@ -5,4 +5,33 @@
     <WatchedResource>WEB-INF/tomcat-web.xml</WatchedResource>
     <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
 
+
+	<!-- DATASOURCE CONNECTION POOL -->
+	<Resource driverClassName = "com.mysql.cj.jdbc.Driver" 
+			  url="jdbc:mysql://localhost/bookdb"
+			  username="root"
+			  password="1234"
+			  name="jdbc/MysqlDB"
+			  type="javax.sql.DataSource"
+			  auth="Container"
+			  maxActive="10"
+			  maxIdle="2"
+			  maxWait="5000"/>
+
+		<Resource name="jdbc/HikariDataSource"
+          auth="Container"
+          type="javax.sql.DataSource"                                    
+          factory="com.zaxxer.hikari.HikariJNDIFactory"                               
+          jdbcUrl="jdbc:mysql://localhost:3306/bookdb"                                                                   
+          driverClassName="com.mysql.cj.jdbc.Driver"
+          username="root"
+          password="1234"
+          maximumPoolSize="10"
+          connectionTimeout="30000"
+          idleTimeout="600000"
+          maxLifetime="1800000"
+    />            
+
+
+
 </Context>
