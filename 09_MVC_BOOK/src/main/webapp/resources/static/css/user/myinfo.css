@@ -3,3 +3,12 @@
 form{
 	width:400px;
 }
+
+.profileBox{
+	margin:15px auto;
+	width:150px;
+	height:150px;
+	border : 1px solid;
+	border-radius : 50%;
+	background-color:black;
+}
