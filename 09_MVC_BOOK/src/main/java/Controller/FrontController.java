@@ -16,6 +16,9 @@ import Controller.Book.BookListController;
 import Controller.Book.BookReadController;
 import Controller.Book.BookUpdateController;
 import Controller.User.UserJoinController;
+import Controller.User.UserLoginController;
+import Controller.User.UserLogoutController;
+import Controller.User.UserMyinfoController;
 
 /*@WebServlet("/*")*/
 //			/* : 모든 요청 처리(모든경로(정적자원,/WEB-INF..))
@@ -50,10 +53,12 @@ public class FrontController extends HttpServlet {
 		map.put(path + "/book/getAll", null);
 		//USER
 		map.put(path + "/join", new UserJoinController());
-		map.put(path + "/user/myinfo", null);
+		map.put(path + "/login", new UserLoginController());
+		map.put(path + "/logout", new UserLogoutController());
+		
+		map.put(path + "/user/myinfo", new UserMyinfoController());
 		map.put(path + "/user/remove", null);
-		map.put(path + "/user/login", null);
-		map.put(path + "/user/logout", null);
+		
 	}
 	
 	

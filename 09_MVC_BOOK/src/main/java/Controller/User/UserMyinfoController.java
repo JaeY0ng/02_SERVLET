@@ -8,11 +8,11 @@ import Controller.SubController;
 import Domain.Common.DTO.UserDTO;
 import Domain.Common.Service.UserServiceImpl;
 
-public class UserJoinController implements SubController{
+public class UserMyinfoController implements SubController{
 	
 	private UserServiceImpl userService;
 	
-	public UserJoinController() throws ServletException {
+	public UserMyinfoController() throws ServletException {
 		try {
 			this.userService = UserServiceImpl.getInstance();
 			
@@ -42,8 +42,8 @@ public class UserJoinController implements SubController{
 				// Method==GET -> 페이지 표시(Forwarding)
 				String method = req.getMethod();
 				if ("GET".equals(method)) {
-					System.out.println("[BC] GET /join..");
-					req.getRequestDispatcher("/WEB-INF/view/join.jsp").forward(req, resp);
+					System.out.println("[BC] GET /user/myinfo..");
+					req.getRequestDispatcher("/WEB-INF/view/user/myinfo.jsp").forward(req, resp);
 					return;
 				}
 				

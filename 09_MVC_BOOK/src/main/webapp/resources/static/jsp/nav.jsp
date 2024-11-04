@@ -16,8 +16,20 @@
             도서관리
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          	<%
+          		String r = (String)session.getAttribute("role");
+          		if(r!=null && "ROLE_MEMBER".equals(r))
+          		{
+          	%>
+          
             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/book/add">도서등록</a></li>
+            <%
+          		}
+            %>
+            
             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/book/list">도서조회</a></li>
+            
+            
           </ul>
         </li>
         <li class="nav-item dropdown m-4">

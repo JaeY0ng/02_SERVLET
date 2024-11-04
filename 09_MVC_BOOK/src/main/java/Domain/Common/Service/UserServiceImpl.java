@@ -3,15 +3,18 @@ package Domain.Common.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import Domain.Common.DAO.UserDAOImpl;
 import Domain.Common.DAO.ConnectionPool.ConnectionPool;
-
 import Domain.Common.DTO.UserDTO;
 
 public class UserServiceImpl {
 
 	//
 	private UserDAOImpl userDaoImpl;
+
+	
 	private ConnectionPool connectionPool;
 	
 	//싱글톤 패턴 코드(추가해주세요 - )
@@ -37,64 +40,60 @@ public class UserServiceImpl {
 	
 
 	//로그인
-
-//	public Map<String, Object> login(UserDTO userDto, Integer sessionId) throws Exception {
-//		//TX Start
-//		Map<String,Object> returnValue=null;
-//		try {
-//				connectionPool.beginTransaction();
-//				returnValue = new HashMap();
-//				//로그인된 상태인지 확인(tbl_Session에서 session조회)
-//				SessionDTO sessiondto = null;
-//				if(sessionId!=null) {
-//					sessiondto =  sessionDaoImpl.select(sessionId);		
-//				}else {
-//					sessiondto = sessionDaoImpl.select(userDto.getUsername());
-//				}
-//				
-//				if(sessiondto!=null) {
-//					returnValue.put("success", false);
-//					returnValue.put("message", "로그인된 상태입니다.");
-//					return returnValue;
-//				}
-//				
-//				//요청한 username 과 동일한 계정이 있는지확인(tbl_user)
-//				UserDTO dbUserDto = userDaoImpl.select(userDto.getUsername());
-//				if(dbUserDto==null) {
-//					returnValue.put("success", false);
-//					returnValue.put("message", "계정이 존재하지 않습니다.");
-//					return returnValue;	
-//				}
-//				
-//				//요청한 password 가 db에 저장된 password와 동일한지 확인
-//				String pw = userDto.getPassword();
-//				String dbPw = dbUserDto.getPassword();
-//				if(!pw.equals(dbPw)) {
-//					returnValue.put("success", false);
-//					returnValue.put("message", "패스워드가 일치하지 않습니다.");
-//					return returnValue;		
-//				}
-//				
-//				//session객체 생성후 table 저장
-//				SessionDTO sessionDto = new SessionDTO();
-//				sessionDto.setUsername(userDto.getUsername());
-//				sessionDto.setRole(dbUserDto.getRole());
-//				sessionDaoImpl.insert(sessionDto);
-//				
-//				//sessionId를 반환
-//				SessionDTO dbSessionDto = sessionDaoImpl.select(userDto.getUsername());
-//				returnValue.put("success", true);
-//				returnValue.put("message", "로그인 성공!");
-//				returnValue.put("sessionId", dbSessionDto.getSessionId());
-//				connectionPool.commitTransaction();
-//		}catch(Exception e) {
-//			connectionPool.rollbackTransaction();
-//			throw e;
-//		}
-//		return returnValue;
-//	}
+	public Map<String, Object> login(UserDTO userDto, HttpSession session) throws Exception {
+		//TX Start
+		Map<String,Object> returnValue=null;
+		try {
+				connectionPool.beginTransaction();
+				returnValue = new HashMap();
+				
+				//로그인 상태인지 여부 확인
+				String username = (String)session.getAttribute("username");
+				String role = (String)session.getAttribute("role");
+				
+				if(username!=null || role!=null) {
+					returnValue.put("success", false);
+					returnValue.put("message", "로그인된 상태입니다.");
+					return returnValue;
+				}
+				
+				
+				//요청한 username 과 동일한 계정이 있는지확인(tbl_user)
+				UserDTO dbUserDto = userDaoImpl.select(userDto.getUsername());
+				if(dbUserDto==null) {
+					returnValue.put("success", false);
+					returnValue.put("message", "계정이 존재하지 않습니다.");
+					return returnValue;	
+				}
+				
+				//요청한 password 가 db에 저장된 password와 동일한지 확인
+				String pw = userDto.getPassword();
+				String dbPw = dbUserDto.getPassword();
+				if(!pw.equals(dbPw)) {
+					returnValue.put("success", false);
+					returnValue.put("message", "패스워드가 일치하지 않습니다.");
+					return returnValue;		
+				}
+				
+				//session객체 생성후 table 저장
+				session.setAttribute("username", username);
+				session.setAttribute("role", dbUserDto.getRole());
+				
+				//sessionId를 반환
+				returnValue.put("success", true);
+				returnValue.put("message", "로그인 성공!");
+				
+				connectionPool.commitTransaction();
+		}catch(Exception e) {
+			connectionPool.rollbackTransaction();
+			throw e;
+		}
+		return returnValue;
+	}
+	
+	
+	
 //	
-//	@Override
 //	public Map<String,Object> logout(int sessionId) throws Exception{
 //		//TX Start
 //		Map<String,Object> returnValue=null;
@@ -104,7 +103,7 @@ public class UserServiceImpl {
 //				returnValue = new HashMap();
 //
 //				//1
-//				SessionDTO sessionDto = sessionDaoImpl.select(sessionId);
+//				SessionDto sessionDto = sessionDaoImpl.select(sessionId);
 //				if(sessionDto==null) {
 //					returnValue.put("success", false);
 //					returnValue.put("message", "로그인상태가 아닙니다");
@@ -131,11 +130,9 @@ public class UserServiceImpl {
 //	}
 //	
 //	
-//	@Override
-//	public SessionDTO getSession(int sessionId) throws Exception{
+//	public SessionDto getSession(int sessionId) throws Exception{
 //		return sessionDaoImpl.select(sessionId);
 //	}
-//	
 	
 	//회원수정(2)
 	//회원탈퇴(3)
