@@ -1,3 +1,4 @@
+<%@page import="Domain.Common.DTO.PageDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -30,10 +31,9 @@
         </li>
         
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+    
+
+      
     </div>
   </div>
 </nav>

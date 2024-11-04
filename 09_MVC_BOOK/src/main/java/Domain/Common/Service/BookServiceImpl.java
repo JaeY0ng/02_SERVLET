@@ -114,6 +114,7 @@ public class BookServiceImpl {
 	
 	//도서 조회(단건 - BookDto)
 	public BookDTO getBook(long bookCode) throws Exception{
+		
 		return bookDaoImpl.select(bookCode);
 	}
 	
@@ -127,7 +128,7 @@ public class BookServiceImpl {
 	}
 
 	//조건부검색(Criteria)
-	public Map<String,Object> getBooks(Criteria criteria)  throws Exception{
+public Map<String,Object> getBooks(Criteria criteria)  throws Exception{
 		
 		Map<String,Object> rvalue = new HashMap();
 		// TODO Auto-generated method stub
@@ -136,7 +137,7 @@ public class BookServiceImpl {
 			connectionPool.beginTransaction();
 			
 			
-			if(criteria.getType()==null) {
+			if(criteria.getType()==null ) {
 				//전체검색
 				int offset = (criteria.getPageno()-1) * criteria.getAmount();		
 				list =  bookDaoImpl.select(offset,criteria.getAmount());
@@ -149,8 +150,22 @@ public class BookServiceImpl {
 				rvalue.put("list", list);
 				rvalue.put("pageDto", pageDto);
 				
-			}else {
+			}
+			
+			else {
 				
+				//전체검색
+				int offset = (criteria.getPageno()-1) * criteria.getAmount();		
+				list =  bookDaoImpl.select(offset,criteria.getAmount(),criteria.getType(),criteria.getKeyword());
+				
+				//PageDto구하기
+				int total = bookDaoImpl.count(criteria);
+				PageDTO pageDto = new PageDTO(total, criteria);
+				System.out.println("TOTAL : " + total);
+				System.out.println("pageDto : " + pageDto);
+				rvalue.put("list", list);
+				rvalue.put("pageDto", pageDto);	
+	
 			}
 			
 			
@@ -164,6 +179,7 @@ public class BookServiceImpl {
 		
 		return rvalue;
 	}
+	
 	
 
 

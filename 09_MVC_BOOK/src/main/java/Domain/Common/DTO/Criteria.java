@@ -12,9 +12,9 @@ public class Criteria {
 		this.amount = 10;
 	}
 	
-	public Criteria(int pageno, int amount, String type, String keyword) {
+	public Criteria(String pageno, int amount, String type, String keyword) {
 		super();
-		this.pageno = pageno;
+		this.pageno = Integer.parseInt(pageno);
 		this.amount = amount;
 		this.type = type;
 		this.keyword = keyword;

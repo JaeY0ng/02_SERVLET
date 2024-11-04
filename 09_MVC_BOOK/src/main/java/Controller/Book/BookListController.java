@@ -55,10 +55,11 @@ public class BookListController implements SubController {
 			String keyword = req.getParameter("keyword");
 			Criteria criteria = null;
 			System.out.println("pageno : " + pageno);
+			
 			if(pageno==null) {
 				criteria = new Criteria(); // pageno=1 , amount=10, type=null, keyword=null	
 			}else {
-				criteria = new Criteria(pageno,10); // pageno=pageno , amount=10, type=null, keyword=null	
+				criteria = new Criteria(pageno,10,type,keyword); // pageno=pageno , amount=10, type=type, keyword=keyword	
 			}
 				
 			// 유효성 확인

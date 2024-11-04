@@ -8,11 +8,11 @@ import Controller.SubController;
 import Domain.Common.DTO.BookDTO;
 import Domain.Common.Service.BookServiceImpl;
 
-public class BookDeleteController implements SubController {
+public class BookReadController implements SubController {
 
 	private BookServiceImpl bookService;
 
-	public BookDeleteController() {
+	public BookReadController() {
 
 		try {
 			bookService = BookServiceImpl.getInstance();
@@ -33,28 +33,28 @@ public class BookDeleteController implements SubController {
 		}
 
 	}
+
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) {
 
 		try {
-			String method = req.getMethod();
-			if("GET".equals(method)) {
-				//파라미터
-				Long bookCode = Long.parseLong(req.getParameter("bookCode"));
-				//유효성
-				
-				//서비스 실행
-				boolean isDeleted =  bookService.bookRemove(bookCode);
-				
-				//뷰
-				if(isDeleted) {
-					System.out.println("[BC] GET /book/delete..");
-					resp.sendRedirect(req.getContextPath()+"/book/list");
-				}
-			}
+			//파라미터
+			Long bookCode = Long.parseLong(req.getParameter("bookCode"));
 			
-		
-
+			//유효성
+			
+			//서비스
+			BookDTO bookDto =  bookService.getBook(bookCode);
+			
+					
+			//뷰
+			req.setAttribute("bookDto", bookDto);
+			System.out.println("[BC] GET /book/read..");
+			req.getRequestDispatcher("/WEB-INF/view/book/read.jsp").forward(req, resp);
+			
+			
+			
+			return;
 
 		} catch (Exception e) {
 

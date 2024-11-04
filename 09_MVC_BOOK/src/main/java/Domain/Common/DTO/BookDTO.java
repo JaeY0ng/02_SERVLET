@@ -1,5 +1,4 @@
 package Domain.Common.DTO;
-
 public class BookDTO {
 
 	private long bookCode;

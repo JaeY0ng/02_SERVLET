@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Controller.Book.BookAddController;
+import Controller.Book.BookDeleteController;
 import Controller.Book.BookListController;
+import Controller.Book.BookReadController;
+import Controller.Book.BookUpdateController;
+import Controller.User.UserJoinController;
 
 /*@WebServlet("/*")*/
 //			/* : 모든 요청 처리(모든경로(정적자원,/WEB-INF..))
@@ -37,11 +41,15 @@ public class FrontController extends HttpServlet {
 		//BOOK
 		map.put(path + "/book/add", new BookAddController());
 		map.put(path + "/book/list", new BookListController());
-		map.put(path + "/book/update", null);
-		map.put(path + "/book/delete", null);
+		map.put(path + "/book/read", new BookReadController());
+		
+		
+		map.put(path + "/book/update", new BookUpdateController());
+		map.put(path + "/book/delete", new BookDeleteController());
+		
 		map.put(path + "/book/getAll", null);
 		//USER
-		map.put(path + "/user/join", null);
+		map.put(path + "/join", new UserJoinController());
 		map.put(path + "/user/myinfo", null);
 		map.put(path + "/user/remove", null);
 		map.put(path + "/user/login", null);
